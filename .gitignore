@@ -1,0 +1,21 @@
+.DS_Store
+CACHE
+*.pyc
+*.pyo
+*.project
+*.pydevproject
+.svn
+*.ropeproject
+
+# Emacs files
+\#*
+*~
+
+# PyCharm
+.idea/*
+
+# Emacs junk files
+
+*~
+\#*
+.\#*
