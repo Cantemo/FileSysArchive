@@ -2,6 +2,8 @@ import logging
 import os
 import shutil
 
+from slugify import slugify
+
 from portal.pluginbase.core import Plugin, implements
 from portal.generic.plugin_interfaces import IAppRegister
 from portal.generic.plugin_interfaces import IArchivePlugin
@@ -12,8 +14,10 @@ log = logging.getLogger(__name__)
 PLUGIN_NAME = "Simple archive plugin"
 
 
-def construct_filename(fileset, storage_path):
-    filename = '{f.item_id}-{f.sha1}.archived'.format(f=fileset)
+def construct_filename(file_path, fileset, storage_path):
+    filename = '{file_name}_{f.item_id}_{f.sha1}.archived'.format(
+        file_name=slugify(os.path.basename(file_path)), f=fileset
+    )
     return os.path.join(storage_path, filename)
 
 
@@ -49,7 +53,10 @@ class FileSysArchivePlugin(Plugin):
         archived = []
 
         for file_set in file_sets:
-            shutil.copy(file_set.files[0], construct_filename(file_set, config.storage_path))
+            for file_path in file_set.files:
+                shutil.copy(
+                    file_path, construct_filename(file_path, file_set, config.storage_path)
+                )
             archived.append(file_set)
 
         return archived
@@ -65,7 +72,9 @@ class FileSysArchivePlugin(Plugin):
                     dir_name = os.path.dirname(dst_path)
                     if dir_name and (not os.path.exists(dir_name)):
                         os.makedirs(dir_name)
-                    shutil.copy(construct_filename(file_set, config.storage_path), dst_path)
+                    shutil.copy(
+                        construct_filename(dst_path, file_set, config.storage_path), dst_path
+                    )
                     restored.append(file_set)
                     break
                 except Exception as x:
@@ -78,11 +87,12 @@ class FileSysArchivePlugin(Plugin):
         from .models import get_config
         config = get_config()
         for file_set in file_sets:
-            try:
-                os.unlink(construct_filename(file_set, config.storage_path))
-            except Exception as x:
-                log.error(x, exc_info=True)
-                raise x
+            for file_path in file_set.files:
+                try:
+                    os.unlink(construct_filename(file_path, file_set, config.storage_path))
+                except Exception as x:
+                    log.error(x, exc_info=True)
+                    raise x
         return file_sets
 
     @staticmethod
