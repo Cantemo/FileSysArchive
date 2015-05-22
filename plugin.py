@@ -9,16 +9,10 @@ from portal.generic.plugin_interfaces import IAppRegister
 from portal.generic.plugin_interfaces import IArchivePlugin
 from portal.generic.plugin_interfaces import IPluginBlock
 from portal.generic.plugin_interfaces import IPluginURL
+from portal.archive_framework.utils import construct_filename
 
 log = logging.getLogger(__name__)
 PLUGIN_NAME = "Simple archive plugin"
-
-
-def construct_filename(file_path, fileset, storage_path):
-    filename = '{file_name}_{f.item_id}_{f.sha1}.archived'.format(
-        file_name=slugify(os.path.basename(file_path)), f=fileset
-    )
-    return os.path.join(storage_path, filename)
 
 
 class FileSysArchiveUrls(Plugin):
