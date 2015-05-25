@@ -12,7 +12,7 @@ from portal.generic.plugin_interfaces import IPluginURL
 from portal.archive_framework.utils import construct_filename
 
 log = logging.getLogger(__name__)
-PLUGIN_NAME = "Simple archive plugin"
+PLUGIN_NAME = "File system archive plugin"
 
 
 class FileSysArchiveUrls(Plugin):
@@ -105,9 +105,10 @@ class FileSysArchiveAppRegister(Plugin):
         self.plugin_guid = FileSysArchiveAppRegister.plugin_guid
 
     def __call__(self):
+        from __init__ import __version__
         return {
             'name': self.name,
-            'version': '1.0.0',
+            'version': __version__,
             'author': 'Cantemo AB',
             'author_url': 'www.cantemo.com',
             'notes': 'Copyright (C) 2015. All rights reserved.'}
