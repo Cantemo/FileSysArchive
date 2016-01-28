@@ -2,14 +2,11 @@ import logging
 import os
 import shutil
 
-from slugify import slugify
-
-from portal.pluginbase.core import Plugin, implements
-from portal.generic.plugin_interfaces import IAppRegister
+from portal.archive_framework.utils import construct_filename
 from portal.generic.plugin_interfaces import IArchivePlugin
 from portal.generic.plugin_interfaces import IPluginBlock
 from portal.generic.plugin_interfaces import IPluginURL
-from portal.archive_framework.utils import construct_filename
+from portal.pluginbase.core import Plugin, implements
 
 log = logging.getLogger(__name__)
 PLUGIN_NAME = "File system archive plugin"
@@ -24,6 +21,7 @@ class FileSysArchiveUrls(Plugin):
         self.urlpattern = ''
         self.namespace = 'filesysarchive'
         log.debug("Initiated FileSysArchiveUrls")
+
 
 FileSysArchiveUrls()
 
@@ -94,31 +92,10 @@ class FileSysArchivePlugin(Plugin):
         return True
 
 
-class FileSysArchiveAppRegister(Plugin):
-    implements(IAppRegister)
-
-    plugin_guid = "5e92dac9-e8e1-4a01-a654-acefa6286dd8"
-
-    def __init__(self):
-        file_sys_archive_plugin = FileSysArchivePlugin()
-        self.name = file_sys_archive_plugin.name
-        self.plugin_guid = FileSysArchiveAppRegister.plugin_guid
-
-    def __call__(self):
-        from __init__ import __version__
-        return {
-            'name': self.name,
-            'version': __version__,
-            'author': 'Cantemo AB',
-            'author_url': 'www.cantemo.com',
-            'notes': 'Copyright (C) 2015. All rights reserved.'}
-
-
-FileSysArchiveAppRegister()
+FileSysArchivePlugin()
 
 
 class FileSysArchiveAdminPlugin(Plugin):
-
     implements(IPluginBlock)
 
     def __init__(self):
@@ -130,6 +107,7 @@ class FileSysArchiveAdminPlugin(Plugin):
             'guid': self.plugin_guid,
             'template': 'file_sys_archive/navigation_admin.html'
         }
+
 
 FileSysArchiveAdminPlugin()
 
@@ -148,5 +126,6 @@ class FileSysArchiveAdminMenu(Plugin):
             'guid': self.plugin_guid,
             'template': 'file_sys_archive/admin_leftpanel_settings.html'
         }
+
 
 FileSysArchiveAdminMenu()

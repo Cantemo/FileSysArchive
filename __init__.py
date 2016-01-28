@@ -1,2 +1,4 @@
-from plugin import *
-__version__ = 'DISPLAY_VERSION'
+from portal import __version__ as portalversion
+__version__ = portalversion
+
+import registration  # noqa
