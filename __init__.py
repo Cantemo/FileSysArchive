@@ -1,4 +1,5 @@
-from portal import __version__ as portalversion
-__version__ = portalversion
 
-import registration  # noqa
+__version__ = "0.0.1"
+
+
+from . import registration  # noqa

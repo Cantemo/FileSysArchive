@@ -1,9 +1,0 @@
-{% load i18n cache navbar %}
-
-{% if user|has_role:"_administrator" %}
-    <li>
-        <a href="{% url filesysarchive_settings %}" title="{% trans "FileSysArchive" %}">
-            {% trans 'FileSysArchive' %}
-        </a>
-    </li>
-{% endif %}

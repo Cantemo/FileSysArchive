@@ -1,0 +1,4 @@
+{% load i18n cache navbar %}
+{% permissionrequired  portal_archive_settings %}
+    <li><a href="{% url 'filesysarchive_example_settings' %}" class="filesys_archive">{% trans 'Filesystem Example' %}</a></li>
+{% endpermissionrequired %}

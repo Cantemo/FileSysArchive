@@ -1,7 +1,7 @@
 {% themeextends "admin/base_admin.html" %}
 {% load i18n compress %}
-{% block title %}{% trans 'FileSysArchive Setup' %}{% endblock %}
-{% block heading %}{% trans 'FileSysArchive Setup' %} {% endblock heading %}
+{% block title %}{% trans 'Filesystem Example Archive Setup' %}{% endblock %}
+{% block heading %}{% trans 'Filesystem Example Archive Setup' %} {% endblock heading %}
 {% block content %}
 
 <form action="" method="post" accept-charset="utf-8" class="formmain">
@@ -18,13 +18,15 @@
 
                         <label>{{ field.field.label }}</label>
                         <span class="field_holder">{{ field }}</span>
-
+                        {% if field.errors %}<p>{% for error in field.errors %}{{ error }}{% endfor %}</p>
+                        {% else %}
+                        <img id="file_sys_check_path"src="/sitemedia//img/icon-checkmark-circle.svg" width="16px" height="16px">
+                        {% endif %}
                         {% if field.field.help_text %}
-                            <div style="margin-top: 10px; font-style: italic;">
+                            <div style="margin-top: 10px; font-style: italic;" id="archive_settings_help_text">
                                 {{ field.field.help_text|safe }}
                             </div>
                         {% endif %}
-                        {% if field.errors %}<p>{% for error in field.errors %}{{ error }}{% endfor %}</p>{% endif %}
                     </li>
                 {% endif %}
             {% endfor %}

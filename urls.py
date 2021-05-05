@@ -1,9 +1,9 @@
 
-from django.conf.urls.defaults import patterns, url
+from django.conf.urls import url
 from .views import FileSysArchiveSettings
 
-urlpatterns = patterns('portal.plugins.filesysarchive.views',
-    url(r'^filesysarchive/settings/$',
+urlpatterns = [
+    url(r'^filesysarchive_example/settings/$',
         FileSysArchiveSettings.as_view(),
-        name='filesysarchive_settings'),
-)
+        name='filesysarchive_example_settings'),
+]

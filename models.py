@@ -17,7 +17,7 @@ class FileSysArchiveConfig(SingletonModel):
         blank=False,
         null=False,
         default='/tmp/',
-        help_text=_("System will automatically create directory if it's possible")
+        help_text=_("Vidispine must have write access to the given storage path")
     )
 
 
